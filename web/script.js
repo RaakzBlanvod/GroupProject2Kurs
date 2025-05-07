@@ -1,6 +1,8 @@
 async function addTask() {
   const input = document.getElementById('taskInput');
+  const errorDiv = document.getElementById('errorMessage');
   const title = input.value.trim();
+  errorDiv.textContent = '';
   if (!title) return;
 
   try {
@@ -9,6 +11,9 @@ async function addTask() {
     updateTasks();
   } catch (err) {
     console.error("Ошибка при добавлении задачи:", err);
+    if (err.errorText && err.errorText.includes('value too long')) {
+      errorDiv.textContent = 'Максимальная длина задачи — 50 символов.';
+    }
   }
 }
 
@@ -23,8 +28,8 @@ async function updateTasks() {
     const tasksDiv = document.getElementById('tasks');
     tasksDiv.innerHTML = tasks.map(task => `
       <div class="task">
-        ${task[1]}
-        <button onclick="deleteTask(${task[0]})" style="margin-left:10px;">❌</button>
+        <span title="${task[1]}">${task[1]}</span>
+        <button onclick="deleteTask(${task[0]})">❌</button>
       </div>
     `).join('');
   } catch (err) {
