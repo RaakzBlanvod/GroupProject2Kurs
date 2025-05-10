@@ -11,7 +11,7 @@ class TestDatabaseFunctions(unittest.TestCase):
         titles = [task[1] for task in tasks]
         self.assertIn(title, titles)
 
-        delete_task_db(task_id)  # очистка за собой
+        delete_task_db(task_id)
 
     def test_delete_task(self):
         title = "Удаляемая задача"
